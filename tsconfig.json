@@ -28,19 +28,10 @@
     "lib": ["es2022"],
     "skipLibCheck": true,
 
-    /* Path Aliases */
-    "baseUrl": "src",
-    "paths": {
-      "$types/*": ["types/*"],
-      "$types": ["types/index.ts"],
-      "$utils/*": ["utils/*"],
-      "$utils": ["utils/index.ts"]
-    },
-
     /* Experimental (Required for Library) */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"]
 }

@@ -11,7 +11,8 @@ export class Encoder {
 		["array", 6],
 		["map", 7],
 		["set", 8],
-		["object", 9],
+		["regex", 9],
+		["object", 10],
 	]);
 	private lastID: number = this.types.size;
 	private customEncoderHelpers = new Map<number, (item: any) => Array<any>>();
@@ -119,7 +120,7 @@ export class Encoder {
 						return buffer;
 					}
 					case "string": {
-						const length = Buffer.byteLength(item);
+						const length = Buffer.byteLength(item, "utf-8");
 						const buffer = Buffer.alloc(1 + 4 + length);
 						const view = new DataView(buffer.buffer);
 						view.setUint8(0, tag);
@@ -148,6 +149,20 @@ export class Encoder {
 					default:
 						return Buffer.alloc(0);
 				}
+			}
+
+			if (item instanceof RegExp) {
+				const tag = this.types.get("regex");
+				assert(tag !== undefined, "Regex type not found");
+				const parts = encoder([item.source, item.flags]);
+				const buffer = Buffer.alloc(1 + 4 + parts.length);
+				const view = new DataView(buffer.buffer);
+				view.setUint8(0, tag);
+				offset += 1;
+				view.setUint32(offset, parts.length, true);
+				offset += 4;
+				parts.copy(buffer, offset);
+				return buffer;
 			}
 
 			const arrayLikeBuffer = (tag: number, array: Array<any>): Buffer => {
@@ -286,6 +301,14 @@ export class Encoder {
 					return set;
 				}
 				case 9: {
+					// RegExp
+					const length = item.readUInt32LE(offset);
+					offset += 4;
+					const parts = decoder(item.subarray(offset, offset + length));
+					assert(Array.isArray(parts) && parts.length === 2);
+					return new RegExp(parts[0], parts[1]);
+				}
+				case 10: {
 					// Object
 					const count = item.readUInt32LE(offset);
 					offset += 4;

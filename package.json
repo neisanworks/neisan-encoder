@@ -1,13 +1,60 @@
 {
-  "name": "neisan-encoder",
-  "module": "index.ts",
+  "name": "@neisanworks/neisan-encoder",
+  "description": "A high-performance, zero-copy binary encoder/decoder for JavaScript/TypeScript. Supports primitive types, arrays, maps, sets, objects, and custom classes with automatic prototype preservation. Designed for fast serialization of complex nested structures and persistent storage.",
+  "version": "0.1.0",
+  "author": "@neisanworks",
+  "license": "MIT",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "bun run build && bun dist/example/index.js",
+    "build": "rm -rf dist && tsc",
+    "clean": "rm -rf dist",
+    "prepare": "ts-patch install",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "engines": {
+    "bun": "^1.0.0",
+    "node": ">=18"
+  },
+  "keywords": [
+    "bun",
+    "typescript",
+    "encoder",
+    "decoder",
+    "serialization"
+  ],
   "devDependencies": {
-    "@biomejs/biome": "2.3.4",
+    "@biomejs/biome": "2.2.7",
+    "@types/bun": "latest",
     "@tylerbu/sorted-btree-es6": "^1.8.0",
-    "@types/bun": "latest"
+    "ts-patch": "^3.3.0"
   },
   "peerDependencies": {
     "typescript": "^5"
-  }
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/@neisanworks/neisan-encoder.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/@neisanworks/neisan-encoder/issues"
+  },
+  "homepage": "https://github.com/@neisanworks/neisan-encoder#readme"
 }

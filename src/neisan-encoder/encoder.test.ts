@@ -167,6 +167,20 @@ test("Map Encoding and Decoding", () => {
 	expect(decoded).toEqual(map);
 });
 
+test("RegExp Encoding and Decoding", () => {
+	let regex = /test/;
+	let encoded = encoder.encode(/test/);
+	expect(encoded).toBeInstanceOf(Buffer);
+	let decoded = encoder.decode<RegExp>(encoded);
+	expect(decoded).toEqual(regex);
+
+	regex = new RegExp(/test/, "g");
+	encoded = encoder.encode(regex);
+	expect(encoded).toBeInstanceOf(Buffer);
+	decoded = encoder.decode<RegExp>(encoded);
+	expect(decoded).toEqual(regex);
+});
+
 test("Class Encoding and Decoding", () => {
 	interface UserData {
 		email: string;
