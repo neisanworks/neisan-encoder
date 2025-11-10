@@ -1,0 +1,13 @@
+{
+  "name": "neisan-encoder",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "2.3.4",
+    "@tylerbu/sorted-btree-es6": "^1.8.0",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
